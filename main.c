@@ -10,13 +10,15 @@ main() {
     int elemento;
     int opcao = -1;
     while (opcao != 0) {
-        printf("\nEscolha uma opcao:\n"
-            "1) Consultar posicao\n"
-            "2) Inserir elemento\n"
-            "3) Remover elemento\n"
-            "4) Consultar quantidade de elementos\n"
-            "5) Exibir todos os itens\n"
-            "0) Sair\n");
+        printf("\n\n*********************\n"
+            "\tEscolha uma opcao:\n\n"
+            " 1) Consultar posicao\n"
+            " 2) Inserir elemento\n"
+            " 3) Remover elemento\n"
+            " 4) Consultar quantidade de elementos\n"
+            " 5) Exibir todos os itens\n"
+            " 0) Sair"
+            "\n*********************\n");
         scanf("%d", &opcao);
         switch(opcao) {
             case 1:
