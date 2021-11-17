@@ -3,7 +3,7 @@
 #define MAX 20
 
 int lista[MAX];
-int numItems = 0;
+int qtdItens = 0;
 
 main() {
     int posicao;
@@ -26,8 +26,11 @@ main() {
                 printf("Informe a posicao: ");
                 scanf("%d", &posicao);
                 elemento = consultarPosicao(posicao);
+                clear();
                 if (elemento != NULL) {
-                    printf("A posicao %d contem o elemento %d.", posicao, elemento);
+                    printf("A posicao [%d] contem o elemento %d.", posicao, elemento);
+                } else {
+                    printf("A posicao [%d] esta vazia.", posicao); 
                 }
                 break;
             case 2:
@@ -37,19 +40,23 @@ main() {
                 printf("Informe o elemento: ");
                 scanf("%d", &elemento);
                 inserir(posicao, elemento);
+                clear();
                 break;
             case 3:
                 // Remover elemento
                 printf("Informe a posicao: ");
                 scanf("%d", &posicao);
                 remover(posicao);
+                clear();
                 break;
             case 4:
                 // Consultar quantidade de elementos
-                printf("A lista possui %d elementos.", numItems);
+                clear();
+                printf("A lista possui %d elementos.", qtdItens);
                 break;
             case 5:
                 // Exibir todos os itens
+                clear();
                 exibirItens();
                 break;
             case 0:
@@ -62,7 +69,7 @@ main() {
 }
 
 int consultarPosicao(int posicao) {
-    if (posicao > numItems - 1 || posicao < 0) {
+    if (posicao > qtdItens - 1 || posicao < 0) {
         printf("Posicao invalida!\n");
         return NULL;
     }
@@ -76,27 +83,37 @@ void inserir(int posicao, int elemento) {
     }
     // TODO: inserir no meio da lista
     lista[posicao] = elemento;
-    numItems++;
+    qtdItens++;
 }
 
 void remover(int posicao) {
     // TODO: aprimorar lógica
     lista[posicao] = 0; // Manter 0 como vazio?
-    numItems--;
+    qtdItens--;
 }
 
 void exibirItens() {
-    if (numItems == 0) {
+    if (qtdItens == 0) {
         printf("Lista vazia!\n");
         return;
     }
     int i;
     printf("Itens da lista: [");
-    for (i = 0; i < numItems; i++) {
+    for (i = 0; i < qtdItens; i++) {
         printf("%d", lista[i]);
         if (lista[i + 1] != 0) {
             printf(" ");
         }
     }
     printf("]\n");
+}
+
+void clear(){
+    #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+        system("clear");
+    #endif
+
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls");
+    #endif
 }
