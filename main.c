@@ -51,8 +51,8 @@ main() {
                 // Remover elemento
                 printf("Informe a posicao: ");
                 scanf("%d", &posicao);
-                remover(posicao);
                 clear();
+                remover(posicao);
                 break;
             case 4:
                 // Consultar quantidade de elementos
@@ -125,37 +125,41 @@ void inserir(int posicao, int elemento) {
 
         lista[posicao] = elemento;
         qtdItens++;
-         printf("\nElemento inserido com sucesso na posicao[%d].\n", posicao);
+        printf("\nElemento inserido com sucesso na posicao[%d].\n", posicao);
     }
-        
-    // if (posicao <= MAX && posicao >= 0) {
-        
-    //     for (cont = 0; cont <= MAX; cont++)
-    //     {
-    //         if(lista[proximo] == '\0'){
-    //             lista[proximo] = elemento;
-    //             qtdItens++;
-    //             break;
-    //         }
-    //     }
-    //     printf("Lista cheia!\n");
-    //     return;
-
-    // } else {
-    //     printf("Posicao invalida!\n");
-    //     return;
-    // }
-
-    // }
-    // TODO: inserir no meio da lista
-    // lista[posicao] = elemento;
-    // qtdItens++;
 }
 
 void remover(int posicao) {
-    // TODO: aprimorar lógica
-    lista[posicao] = 0; // Manter 0 como vazio?
-    qtdItens--;
+    int cont;
+    int proximo = posicao + 1;
+    int anterior = qtdItens - 1;
+
+    if (posicao > MAX || posicao < 0) {
+        
+        printf("Posicao invalida!\n");
+        return;
+
+    } else if (estaVazia() == TRUE) {
+        
+        printf("Lista vazia!");
+        return;
+
+    } else if (lista[posicao] != NULL){
+
+         for (cont = posicao; cont < qtdItens ; cont++)
+        {
+            lista[posicao] = lista[proximo];
+            posicao++;
+            proximo++;
+        }
+        
+        lista[proximo] = NULL;
+        qtdItens--;
+        printf("\nElemento removido com sucesso!\n");
+        
+    } else{
+        printf("\n\tPosicao vazia, nao possui elementos\n");
+    }
 }
 
 void exibirItens() {
@@ -211,7 +215,7 @@ int estaCheia(){
 int estaVazia(){
 
     if(qtdItens == 0){
-        printf(":: Lista vazia! ::");
+
         return TRUE;
     }
     return FALSE;
