@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 4
+#define MAX 5
 #define TRUE 1
 #define FALSE 0
 
@@ -89,6 +89,7 @@ int consultarPosicao(int posicao) {
 void inserir(int posicao, int elemento) {
     int cont;
     int proximo = qtdItens;
+    int anterior = qtdItens - 1; 
 
     if (posicao > MAX || posicao < 0) {
         
@@ -108,17 +109,24 @@ void inserir(int posicao, int elemento) {
 
     }else if (lista[posicao] == NULL){
 
-        // for (cont = qtdItens; cont < MAX; cont++)
-        // {
-        //     lista[cont] = lista[cont + 1];
-        // }
         lista[proximo] = elemento; 
         
-        //lista[cont]= elemento;//elemento é inserido na posição que o loop parou
 	    qtdItens++;
-	    printf("\nElemento inserido com sucesso!\n\n");
-        printf("\nElemento inserido na posicao[%d]\n", proximo);
+	    printf("\nElemento inserido com sucesso na posicao[%d].\n", proximo);
+
+    } else if (lista[posicao] != NULL){
+
+        for (cont = qtdItens; cont > posicao ; cont--)
+        {
+            lista[proximo] = lista[anterior];
+            proximo--;
+            anterior--;
         }
+
+        lista[posicao] = elemento;
+        qtdItens++;
+         printf("\nElemento inserido com sucesso na posicao[%d].\n", posicao);
+    }
         
     // if (posicao <= MAX && posicao >= 0) {
         
