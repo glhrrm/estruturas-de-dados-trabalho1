@@ -21,6 +21,7 @@ main() {
             " 3) Remover elemento\n"
             " 4) Consultar quantidade de elementos\n"
             " 5) Exibir todos os itens\n"
+            " 6) Exibir todos os itens por posição\n"
             " 0) Sair"
             "\n*********************\n");
         scanf("%d", &opcao);
@@ -62,6 +63,10 @@ main() {
                 // Exibir todos os itens
                 clear();
                 exibirItens();
+                break;
+            case 6:
+                clear();
+                exibirItensPorPosicao();
                 break;
             case 0:
                 // Sair
@@ -159,6 +164,21 @@ void exibirItens() {
         }
     }
     printf("]\n");
+}
+
+void exibirItensPorPosicao() {
+    if (qtdItens == 0) {
+        printf("Lista vazia!\n");
+        return;
+    }
+    int cont;
+    printf("Itens da lista:\n");
+    for (cont = 0; cont < qtdItens; cont++) {
+        printf("\tPosicao [%d] = %d", cont, lista[cont]);
+        if (lista[cont + 1] != 0) {
+            printf("\n");
+        }
+    }
 }
 
 void clear(){
