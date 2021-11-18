@@ -1,9 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#define MAX 20
+#define MAX 4
+#define TRUE 1
+#define FALSE 0
 
 int lista[MAX];
 int qtdItens = 0;
+int comprimento = sizeof(lista);
 
 main() {
     int posicao;
@@ -39,8 +43,8 @@ main() {
                 scanf("%d", &posicao);
                 printf("Informe o elemento: ");
                 scanf("%d", &elemento);
-                inserir(posicao, elemento);
                 clear();
+                inserir(posicao, elemento);
                 break;
             case 3:
                 // Remover elemento
@@ -61,6 +65,7 @@ main() {
                 break;
             case 0:
                 // Sair
+                // sair();
                 break;
             default:
                 printf("Opcao invalida!\n");
@@ -77,13 +82,61 @@ int consultarPosicao(int posicao) {
 }
 
 void inserir(int posicao, int elemento) {
-    if (posicao > MAX - 1 || posicao < 0) {
+    int cont;
+    int proximo = qtdItens;
+
+    if (posicao > MAX || posicao < 0) {
+        
         printf("Posicao invalida!\n");
         return;
-    }
+
+    } else if (estaCheia() == TRUE) {
+        
+        printf("\n\tERRO: A lista esta cheia\n");
+		return;
+
+    } else if (estaVazia() == TRUE) {
+
+         lista[0] = elemento;
+         qtdItens++;
+         return;
+
+    }else if (lista[posicao] == NULL){
+
+        // for (cont = qtdItens; cont < MAX; cont++)
+        // {
+        //     lista[cont] = lista[cont + 1];
+        // }
+        lista[proximo] = elemento; 
+        
+        //lista[cont]= elemento;//elemento é inserido na posição que o loop parou
+	    qtdItens++;
+	    printf("\nElemento inserido com sucesso!\n\n");
+        printf("\nElemento inserido na posicao[%d]\n", proximo);
+        }
+        
+    // if (posicao <= MAX && posicao >= 0) {
+        
+    //     for (cont = 0; cont <= MAX; cont++)
+    //     {
+    //         if(lista[proximo] == '\0'){
+    //             lista[proximo] = elemento;
+    //             qtdItens++;
+    //             break;
+    //         }
+    //     }
+    //     printf("Lista cheia!\n");
+    //     return;
+
+    // } else {
+    //     printf("Posicao invalida!\n");
+    //     return;
+    // }
+
+    // }
     // TODO: inserir no meio da lista
-    lista[posicao] = elemento;
-    qtdItens++;
+    // lista[posicao] = elemento;
+    // qtdItens++;
 }
 
 void remover(int posicao) {
@@ -117,3 +170,25 @@ void clear(){
         system("cls");
     #endif
 }
+
+int estaCheia(){
+
+    if(qtdItens == MAX){
+        printf(":: Lista esta cheia! ::");
+        return TRUE;
+    }
+    return FALSE;
+}
+
+int estaVazia(){
+
+    if(qtdItens == 0){
+        printf(":: Lista vazia! ::");
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// void sair(){
+//     exit(0);
+// }
