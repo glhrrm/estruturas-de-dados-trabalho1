@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 5
+#define MAX 20
 #define TRUE 1
 #define FALSE 0
 
 int lista[MAX];
 int qtdItens = 0;
-int comprimento = sizeof(lista);
 
 main() {
     int posicao;
@@ -20,15 +19,14 @@ main() {
             " 2) Inserir elemento\n"
             " 3) Remover elemento\n"
             " 4) Consultar quantidade de elementos\n"
-            " 5) Exibir todos os itens\n"
-            " 6) Exibir todos os itens por posição\n"
+            " 5) Exibir todos os itens por posicao\n"
             " 0) Sair"
             "\n*********************\n");
         scanf("%d", &opcao);
         switch(opcao) {
             case 1:
                 // Consultar posicao
-                printf("Informe a posicao: ");
+                printf("Informe a posicao (0 a 19): ");
                 scanf("%d", &posicao);
                 elemento = consultarPosicao(posicao);
                 clear();
@@ -40,8 +38,13 @@ main() {
                 break;
             case 2:
                 // Inserir elemento
-                printf("Informe a posicao: ");
+                printf("Informe a posicao (0 a 19): ");
                 scanf("%d", &posicao);
+                if (posicao >= MAX || posicao < 0) {
+        			clear();
+        			printf("Posicao invalida!\n");
+        			break;
+        		}
                 printf("Informe o elemento: ");
                 scanf("%d", &elemento);
                 clear();
@@ -51,7 +54,11 @@ main() {
                 // Remover elemento
                 printf("Informe a posicao: ");
                 scanf("%d", &posicao);
-                clear();
+        		clear();
+                if (posicao >= MAX || posicao < 0) {
+        			printf("Posicao invalida!\n");
+        			break;
+        		}
                 remover(posicao);
                 break;
             case 4:
@@ -62,15 +69,10 @@ main() {
             case 5:
                 // Exibir todos os itens
                 clear();
-                exibirItens();
-                break;
-            case 6:
-                clear();
                 exibirItensPorPosicao();
                 break;
             case 0:
                 // Sair
-                // sair();
                 break;
             default:
                 printf("Opcao invalida!\n");
@@ -91,38 +93,23 @@ void inserir(int posicao, int elemento) {
     int proximo = qtdItens;
     int anterior = qtdItens - 1; 
 
-    if (posicao > MAX || posicao < 0) {
-        
-        printf("Posicao invalida!\n");
-        return;
-
-    } else if (estaCheia() == TRUE) {
-        
-        printf("\n\tERRO: A lista esta cheia\n");
+    if (estaCheia()) {
+        printf("Lista cheia!\n");
 		return;
-
-    } else if (estaVazia() == TRUE) {
-
+    } else if (estaVazia()) {
          lista[0] = elemento;
          qtdItens++;
          return;
-
-    }else if (lista[posicao] == NULL){
-
+    } else if (!&lista[posicao]){
         lista[proximo] = elemento; 
-        
 	    qtdItens++;
 	    printf("\nElemento inserido com sucesso na posicao[%d].\n", proximo);
-
-    } else if (lista[posicao] != NULL){
-
-        for (cont = qtdItens; cont > posicao ; cont--)
-        {
+    } else if (&lista[posicao]){
+        for (cont = qtdItens; cont > posicao; cont--) {
             lista[proximo] = lista[anterior];
             proximo--;
             anterior--;
         }
-
         lista[posicao] = elemento;
         qtdItens++;
         printf("\nElemento inserido com sucesso na posicao[%d].\n", posicao);
@@ -134,60 +121,33 @@ void remover(int posicao) {
     int proximo = posicao + 1;
     int anterior = qtdItens - 1;
 
-    if (posicao > MAX || posicao < 0) {
-        
-        printf("Posicao invalida!\n");
+    if (estaVazia() == TRUE) {
+        printf("Lista vazia!\n");
         return;
-
-    } else if (estaVazia() == TRUE) {
-        
-        printf("Lista vazia!");
-        return;
-
-    } else if (lista[posicao] != NULL){
-
-         for (cont = posicao; cont < qtdItens ; cont++)
-        {
+    } else if (&lista[posicao]){
+        for (cont = posicao; cont < qtdItens ; cont++) {
             lista[posicao] = lista[proximo];
             posicao++;
             proximo++;
         }
-        
         lista[proximo] = NULL;
         qtdItens--;
         printf("\nElemento removido com sucesso!\n");
-        
-    } else{
+    } else {
         printf("\n\tPosicao vazia, nao possui elementos\n");
     }
 }
 
-void exibirItens() {
-    if (qtdItens == 0) {
+void exibirItensPorPosicao() {
+    if (estaVazia()) {
         printf("Lista vazia!\n");
         return;
     }
     int i;
-    printf("Itens da lista: [");
-    for (i = 0; i < qtdItens; i++) {
-        printf("%d", lista[i]);
-        if (lista[i + 1] != 0) {
-            printf(" ");
-        }
-    }
-    printf("]\n");
-}
-
-void exibirItensPorPosicao() {
-    if (qtdItens == 0) {
-        printf("Lista vazia!\n");
-        return;
-    }
-    int cont;
     printf("Itens da lista:\n");
-    for (cont = 0; cont < qtdItens; cont++) {
-        printf("\tPosicao [%d] = %d", cont, lista[cont]);
-        if (lista[cont + 1] != 0) {
+    for (i = 0; i < qtdItens; i++) {
+        printf("\tPosicao [%d] = %d", i, lista[i]);
+        if (i + 1 != qtdItens) {
             printf("\n");
         }
     }
@@ -204,23 +164,15 @@ void clear(){
 }
 
 int estaCheia(){
-
-    if(qtdItens == MAX){
-        printf(":: Lista esta cheia! ::");
+    if (qtdItens == MAX) {
         return TRUE;
     }
     return FALSE;
 }
 
-int estaVazia(){
-
-    if(qtdItens == 0){
-
+int estaVazia() {
+    if (qtdItens == 0) {
         return TRUE;
     }
     return FALSE;
 }
-
-// void sair(){
-//     exit(0);
-// }
