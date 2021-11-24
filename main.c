@@ -28,12 +28,11 @@ main() {
         // Consultar posicao
         printf("Informe a posicao (0 a 19): ");
         scanf("%d", &posicao);
-        elemento = consultarPosicao(posicao);
         clear();
-        if (elemento != NULL) {
-          printf("A posicao [%d] contem o elemento %d.", posicao, elemento);
-        } else {
-          printf("A posicao [%d] esta vazia.", posicao); 
+        elemento = consultarPosicao(posicao);
+
+        if (elemento != NULL || elemento != 0){
+            printf("A posicao [%d] contem o elemento %d.", posicao, elemento);
         }
         break;
       case 2:
@@ -81,9 +80,13 @@ main() {
 }
 
 int consultarPosicao(int posicao) {
-  if (posicao > qtdItens - 1 || posicao < 0) {
-    printf("Posicao invalida!\n");
-    return NULL;
+  if (posicao > MAX - 1 || posicao < 0) {
+      clear();
+      printf("Posicao invalida!\n");
+      return NULL;
+  } else if (posicao >= qtdItens) {
+     printf("A posicao [%d] esta vazia.", posicao);
+     return 0; 
   }
   return lista[posicao];
 }
